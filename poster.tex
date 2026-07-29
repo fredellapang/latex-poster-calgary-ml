@@ -9,15 +9,26 @@
 
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
-\usepackage[size=custom,width=120,height=72,scale=1.0]{beamerposter}
-\usetheme{cml}  % options are gemini or cml
-\usecolortheme{cml}  % options are gemini, cml, mit, or labsix
+% \usepackage[size=custom,width=120,height=72,scale=1.0]{beamerposter}
+\usepackage[size=custom,width=121.92,height=91.44,scale=1.0]{beamerposter}
+\usetheme{cml}
+\usecolortheme{cml}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{tikz}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.14}
 \usepackage{anyfontsize}
+\usepackage{svg}
+\usepackage[acronym,nohypertypes={acronym,notation}]{glossaries}
+\glsdisablehyper
+\input{glossary.tex}
+\glsunset{rigl} % We don't like to expand the RigL acronym
+\usepackage[numbers,sort]{natbib}
+\usepackage{threeparttable} % To use tables with footnotes properly
+\usepackage[font=small,labelfont=bf,tableposition=top]{caption}
+% % Reset all the acronyms/glossary for main paper
+% \glsresetall
 
 % ====================
 % Lengths
@@ -27,8 +38,13 @@
 % (N+1)*\sepwidth + N*\colwidth = \paperwidth
 \newlength{\sepwidth}
 \newlength{\colwidth}
+% 3 cols
 \setlength{\sepwidth}{0.025\paperwidth}
 \setlength{\colwidth}{0.3\paperwidth}
+
+% 2 cols
+% \setlength{\sepwidth}{0.025\paperwidth}
+% \setlength{\colwidth}{0.475\paperwidth}
 
 \newcommand{\separatorcolumn}{\begin{column}{\sepwidth}\end{column}}
 
@@ -36,20 +52,42 @@
 % Title
 % ====================
 
-\title{Some fancy title: followed by some more text}
+\title{Dynamic Sparse Training in Continual Learning}
+\author{
+    Fredella Pang$^{1}$,
+    Tejas Pote$^{1}$,
+    MA Ganaie$^{1,2}$,
+    Yani A.\ Ioannou$^{1}$
+}
 
-\author{Alyssa P. Hacker \inst{1} \and Ben Bitdiddle \inst{2} \and Lem E. Tweakit \inst{2}}
+\institute[shortinst]{
+    $^{1}$University of Calgary \samelineand
+    $^2$Vector Institute for AI
+}
 
-\institute[shortinst]{\inst{1} Some Institute \samelineand \inst{2} Another Institute}
 
 % ====================
 % Footer (optional)
 % ====================
 
 \footercontent{
-  \href{https://www.example.com}{https://www.example.com} \hfill
-  ABC Conference 2025, New York --- XYZ-1234 \hfill
-  \href{mailto:alyssa.p.hacker@example.com}{alyssa.p.hacker@example.com}}
+  \RaggedLeft
+  \large
+  Arxiv:
+  \begin{array}{l}
+    \includesvg[height=3.5cm]{qr/srigl-arxiv-qr.svg}
+  \end{array}
+  \hfill
+  \centering
+  Upper Bound $2023$ --- Edmonton, AB
+  \hfill
+  \RaggedRight
+  CalgaryML Lab:
+  \begin{array}{l}
+     \includesvg[height=3.5cm]{logos/schulich_h_outline_white.svg}
+    % \includesvg[height=3.5cm]{qr/calgaryml-qr.svg}
+  \end{array}
+}
 % (can be left out to remove footer)
 
 % ====================
@@ -57,13 +95,57 @@
 % ====================
 
 % use this to include logos on the left and/or right side of the header:
-% \logoright{\includegraphics[height=7cm]{logo1.pdf}}
-% \logoleft{\includegraphics[height=7cm]{logo2.pdf}}
+% White Logos
+
+\newlength{\logooffset}
+\setlength{\logooffset}{2ex}
+\newlength{\logoheight}
+\setlength{\logoheight}{3.5cm}
+% white logos
+% \logoright{
+%     \includegraphics[height=\logoheight]{iaifi-logo-white.pdf}
+%     \hspace{\logooffset}
+%     \includegraphics[height=\logoheight]{vector-white-logo.png}
+%     \hspace{\logooffset}
+%     \includesvg[height=\logoheight]{ucmllogo-text-all-white.svg}
+%     \hspace{\logooffset}
+%     \includesvg[height=\logoheight]{UC-horz-white.svg}
+% }
+% \logoleft{
+%     \includesvg[height=\logoheight]{upper_bound.svg}
+%     \hspace{\logooffset}
+%     \includesvg[height=\logoheight]{University_of_Guelph_logo-white.svg}
+%     \hspace{\logooffset}
+%     \includesvg[height=\logoheight]{MIT_logo.svg}
+%     \hspace{\logooffset}
+%     \includesvg[height=\logoheight]{Google_2015_logo-white.svg}
+% }
+
+% Colour logos
+\logoright{
+    \includegraphics[height=\logoheight]{logos/iaifi-logo-black.pdf}
+    \hspace{\logooffset}
+    \includegraphics[height=\logoheight]{logos/Vector-Institute_Logo.png}
+    \hspace{\logooffset}
+    \includesvg[height=\logoheight]{logos/ucmllogo-text.svg}
+    \hspace{\logooffset}
+    \includesvg[height=\logoheight]{logos/UC-horz-rgb.svg}
+}
+\logoleft{
+    \includesvg[height=\logoheight]{logos/upper_bound-black.svg}
+    \hspace{\logooffset}
+    \includesvg[height=\logoheight]{logos/University_of_Guelph_logo.svg}
+    \hspace{\logooffset}
+    \includesvg[height=\logoheight]{logos/MIT_logo-colour.svg}
+    \hspace{\logooffset}
+    \includesvg[height=\logoheight]{logos/Google_2015_logo.svg}
+}
+
 
 % ====================
 % Body
 % ====================
-
+\setbeamertemplate{caption}[numbered]
 \begin{document}
 
 \begin{frame}[t]
@@ -71,236 +153,177 @@
 \separatorcolumn
 
 \begin{column}{\colwidth}
+  \begin{block}{Introduction}
+  \end{block}
+  \begin{block}{Motivation}
+  \heading{Is DST explorative in nature?}
+  % \heading{Unstructured \glspl{snn} are hard to accelerate!}
+  % \textbf{\Large Unstructured \glspl{snn} are hard to accelerate}
+  \begin{itemize}
 
-  \begin{block}{A block title}
+\item Existing research suggest that dynamic sparse training has the ability to compete with dense neural networks, as it may be less prone to overfitting and instability.
+So, we wish to investigate if, when faced with non-stationary dataset, will DST be able to learn without suffering from instability? In generally how plastic is DST when faced with new data? In comparison to sparse training methods such as GMP and Static, DST seems more explorative; but will this allow it to adapt to new data over time?
+Is sparsity alone enough to deal with non-stationary data?
+This leads to our next big question, how does all sparsely trained model fare against non-stationary data; does DST’s unique behavior bring an edge when dealing with new data.
 
-    Some block contents, followed by a diagram, followed by a dummy paragraph.
 
-    \begin{figure}
-      \centering
-      \begin{tikzpicture}[scale=6]
-        \draw[step=0.25cm,color=gray] (-1,-1) grid (1,1);
-        \draw (1,0) -- (0.2,0.2) -- (0,1) -- (-0.2,0.2) -- (-1,0)
-          -- (-0.2,-0.2) -- (0,-1) -- (0.2,-0.2) -- cycle;
-      \end{tikzpicture}
-      \caption{A figure caption.}
-    \end{figure}
+      \item State-of-the-art \Gls{dst} methods learn \emph{unstructured} \glspl{snn} with 85--95\% fewer weights than dense models, while maintaining similar generalization.
 
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultricies
-    eget libero ac ullamcorper. Integer et euismod ante. Aenean vestibulum
-    lobortis augue, ut lobortis turpis rhoncus sed. Proin feugiat nibh a
-    lacinia dignissim. Proin scelerisque, risus eget tempor fermentum, ex
-    turpis condimentum urna, quis malesuada sapien arcu eu purus.
+      \item Sparse training methods employ sparsity \emph{both during training and inference}, unlike pruning and other methods~\citep{zhou2021learning} that only exploit sparsity at inference time.
 
+      \item While unstructured \glspl{snn} enable a large reduction in \gls{flops} in theory, realizing these speedups on hardware is challenging.
+      \item Structured sparse pruning often results in worse generalization than unstructured \glspl{snn}.
+  \end{itemize}
   \end{block}
 
-  \begin{block}{A block containing a list}
-
-    Nam vulputate nunc felis, non condimentum lacus porta ultrices. Nullam sed
-    sagittis metus. Etiam consectetur gravida urna quis suscipit.
-
-    \begin{itemize}
-      \item \textbf{Mauris tempor} risus nulla, sed ornare
-      \item \textbf{Libero tincidunt} a duis congue vitae
-      \item \textbf{Dui ac pretium} morbi justo neque, ullamcorper
-    \end{itemize}
-
-    Eget augue porta, bibendum venenatis tortor.
-
-  \end{block}
-
-  \begin{alertblock}{A highlighted block}
-
-    This block catches your eye, so \textbf{important stuff} should probably go
-    here.
-
-    Curabitur eu libero vehicula, cursus est fringilla, luctus est. Morbi
-    consectetur mauris quam, at finibus elit auctor ac. Aliquam erat volutpat.
-    Aenean at nisl ut ex ullamcorper eleifend et eu augue. Aenean quis velit
-    tristique odio convallis ultrices a ac odio.
-
-    \begin{itemize}
-      \item \textbf{Fusce dapibus tellus} vel tellus semper finibus. In
-        consequat, nibh sed mattis luctus, augue diam fermentum lectus.
-      \item \textbf{In euismod erat metus} non ex. Vestibulum luctus augue in
-        mi condimentum, at sollicitudin lorem viverra.
-      \item \textbf{Suspendisse vulputate} mauris vel placerat consectetur.
-        Mauris semper, purus ac hendrerit molestie, elit mi dignissim odio, in
-        suscipit felis sapien vel ex.
-    \end{itemize}
-
-    Aenean tincidunt risus eros, at gravida lorem sagittis vel. Vestibulum ante
-    ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
-
-  \end{alertblock}
-
-\end{column}
-
-\separatorcolumn
-
-\begin{column}{\colwidth}
-
-  \begin{block}{A block containing an enumerated list}
-
-    Vivamus congue volutpat elit non semper. Praesent molestie nec erat ac
-    interdum. In quis suscipit erat. \textbf{Phasellus mauris felis, molestie
-    ac pharetra quis}, tempus nec ante. Donec finibus ante vel purus mollis
-    fermentum. Sed felis mi, pharetra eget nibh a, feugiat eleifend dolor. Nam
-    mollis condimentum purus quis sodales. Nullam eu felis eu nulla eleifend
-    bibendum nec eu lorem. Vivamus felis velit, volutpat ut facilisis ac,
-    commodo in metus.
-
-    \begin{enumerate}
-      \item \textbf{Morbi mauris purus}, egestas at vehicula et, convallis
-        accumsan orci. Orci varius natoque penatibus et magnis dis parturient
-        montes, nascetur ridiculus mus.
-      \item \textbf{Cras vehicula blandit urna ut maximus}. Aliquam blandit nec
-        massa ac sollicitudin. Curabitur cursus, metus nec imperdiet bibendum,
-        velit lectus faucibus dolor, quis gravida metus mauris gravida turpis.
-      \item \textbf{Vestibulum et massa diam}. Phasellus fermentum augue non
-        nulla accumsan, non rhoncus lectus condimentum.
+  \begin{block}{Method}
+  \begin{enumerate}
+        % \item We propose a novel sparse-to-sparse \gls{dst} method, \gls{srigl}, based on \gls{rigl}~\citep{evci_rigging_2021}. \Gls{srigl} learns a \gls{snn} with constant fan-in structured sparsity while maintaining generalization comparable with \gls{rigl} up to a high sparsity level (99\%) for a variety of network architectures. This structure is a particular case of ``N:M sparsity'' which requires $N$ out of $M$ consecutive weights to be non-zero~\citep{NvidiaA100}.
+        \item We propose a novel sparse-to-sparse \gls{dst} method, \gls{srigl}, based on \gls{rigl}~\citep{evci_rigging_2021}. \Gls{srigl} learns a \gls{snn} with constant fan-in structured sparsity while maintaining generalization comparable with \gls{rigl} up to a high sparsity level (99\%) for a variety of network architectures. This structure is a particular case of ``N:M sparsity''~\citep{NvidiaA100}.
+        \item We show that at sparsity levels >90\% \gls{rigl} ablates whole neurons. By allowing ablation in \gls{srigl}, we match the generalization performance of \gls{rigl} even in this high-sparsity regime.
+        \item We motivate our choice of structure with a theoretical analysis of \gls{snn} output norm variance and find that the constant fan-in constraint does not have a negative effect.
+        \item We demonstrate that our constant fan-in sparsity enables a compact representation that is not only parameter- and memory-efficient, but also amenable to real-world acceleration.
     \end{enumerate}
 
-  \end{block}
-
-  \begin{block}{Fusce aliquam magna velit}
-
-    Et rutrum ex euismod vel. Pellentesque ultricies, velit in fermentum
-    vestibulum, lectus nisi pretium nibh, sit amet aliquam lectus augue vel
-    velit. Suspendisse rhoncus massa porttitor augue feugiat molestie. Sed
-    molestie ut orci nec malesuada. Sed ultricies feugiat est fringilla
-    posuere.
-
     \begin{figure}
-      \centering
-      \begin{tikzpicture}
-        \begin{axis}[
-            scale only axis,
-            no markers,
-            domain=0:2*pi,
-            samples=100,
-            axis lines=center,
-            axis line style={-},
-            ticks=none]
-          \addplot[red] {sin(deg(x))};
-          \addplot[blue] {cos(deg(x))};
-        \end{axis}
-      \end{tikzpicture}
-      \caption{Another figure caption.}
+        \includegraphics[width=.85\colwidth]{srigl_example_figs/constantfanin.pdf}
+        \caption{Constant fan-in pruning v.s.\ unstructured pruning.}\label{fig:constfanin}
     \end{figure}
 
-  \end{block}
+    \end{block}
 
-  \begin{block}{Nam cursus consequat egestas}
+  \begin{block}{Evaluation}
+  \begin{itemize}
+      \item Smaller output variance is indicative of training stability
+      % \item We derive exact expressions for the variance of the layer output norm at initialization for different sparsity types
+      \item We derive exact expressions for the variance of the layer output norm at initialization
+      \item Constant fan-in consistently yields smaller variance than other sparsity types
+  \end{itemize}
 
-    Nulla eget sem quam. Ut aliquam volutpat nisi vestibulum convallis. Nunc a
-    lectus et eros facilisis hendrerit eu non urna. Interdum et malesuada fames
-    ac ante \textit{ipsum primis} in faucibus. Etiam sit amet velit eget sem
-    euismod tristique. Praesent enim erat, porta vel mattis sed, pharetra sed
-    ipsum. Morbi commodo condimentum massa, \textit{tempus venenatis} massa
-    hendrerit quis. Maecenas sed porta est. Praesent mollis interdum lectus,
-    sit amet sollicitudin risus tincidunt non.
+\begin{figure}
+    \includegraphics[width=.5\colwidth]{srigl_example_figs/Theory_1.pdf}
+    % \includesvg[width=\colwidth]{fig/Theory_1.svg}
+    \caption{Output-norm variance analysis.}\label{fig:theory}
+\end{figure}
+\end{block}
 
-    Etiam sit amet tempus lorem, aliquet condimentum velit. Donec et nibh
-    consequat, sagittis ex eget, dictum orci. Etiam quis semper ante. Ut eu
-    mauris purus. Proin nec consectetur ligula. Mauris pretium molestie
-    ullamcorper. Integer nisi neque, aliquet et odio non, sagittis porta justo.
+\end{column}
+\separatorcolumn
+\begin{column}{\colwidth}
+  \begin{block}{Results}
+  \begin{table}[p]
+  \vspace{-1em}
+    \begin{threeparttable}
+    \begin{center}
+        \caption{\textbf{Top-1 ImageNet test accuracy of ResNet-50 trained with a variety of \gls{dst} methods}, highlighting methods that both are sparse-to-sparse \emph{and} learn structured sparsity similar to \gls{srigl} --- only DSB-16 (2:4 and 1:4  sparsity) is directly comparable in this regard. \gls{rigl} and \gls{srigl} results are from our experiments, other values are obtained from each method's corresponding paper, U.N.O.}\label{table:imagenet_benchmarks}
+        \begin{tabular}{@{}p{6.0em}p{4.0em}p{5.5em}cccccc@{}}\toprule
+        & training &  & \multicolumn{5}{c}{sparsity} \\
+        \cmidrule(lr){4-8}
+         % \midrule
+        method & method & structured & 50\% & 75\% & 80\% & 90\%  & 93.75\% \\
+        \midrule
+        Static\tnote{\textasteriskcentered} & sparse & no & -- & -- & $70.6\pm 0.06$ & $65.8\pm 0.04$ & -- \\
+        SET\tnote{\textasteriskcentered} & sparse & no & -- & -- & $72.9\pm 0.39$ & $69.6\pm 0.23$ & -- \\
+        DeepR\tnote{\S} & sparse & no & -- & -- & $71.7$ & $70.2$ & -- \\
+        DSR & sparse & no & -- & -- & $73.3$ & $71.6$ & -- \\
+        Top-KAST\tnote{\textdaggerdbl} & sparse & no & -- & -- & $74.76$ & $70.42$ & -- \\
+        MEST\tnote{\textdagger} & sparse & no & -- & -- & $\mathbf{75.39}$ & $72.58$ & -- \\
+        RigL & sparse & no & -- & -- & $74.98$ & $\mathbf{72.81}$ & -- \\
+        DSB-16 & \textbf{sparse} & \textbf{yes} & $76.33$ & $74.04$ & -- & -- & -- \\
+        SRigL (Ours) & \textbf{sparse} & \textbf{yes} & $\mathbf{76.60}$ & $\mathbf{75.55}$ & $75.01$ & $72.71$ & $70.56$ \\
+        \cmidrule{1-8}
+        SNFS (ERK)\tnote{\textasteriskcentered} & dense & no & -- & -- & $75.2\pm 0.11$ & $73.0\pm 0.04$ & -- \\
+        SR-STE & dense & yes & -- & $76.2$ & -- & -- & $71.5$ \\
+        \cmidrule{1-8}
+        \multicolumn{3}{c}{\emph{dense ResNet-50:}} & \multicolumn{5}{c}{$76.7$} \\\bottomrule
+    \end{tabular}
+    \begin{tablenotes}
+    \footnotesize
+    \item[\textasteriskcentered]~values obtained from \citet{evci_rigging_2021}
+    \item[\S]~values obtained from \citet{mostafa_parameter_2019}
+    \item[\textdagger]~values for the MEST (x0.67+EM) variant, matched to the same number of training \gls{flops} as \gls{rigl}
+    \item[\textdaggerdbl]~values tabulated for \gls{topkast} correspond to the \emph{backwards sparsity} as \gls{topkast} uses different sparsities in the forward and backward passes. For 80\% sparsity, the value reported is based on using a random regrow criteria, unlike the 90\% sparsity value. For more information see Table 1 in \citep{jayakumar_top-kast_2020}
+    \end{tablenotes}
+    \end{center}
+    \end{threeparttable}
+  \end{table}
 
-    \begin{itemize}
-      \item \textbf{Sed consequat} id ante vel efficitur. Praesent congue massa
-        sed est scelerisque, elementum mollis augue iaculis.
-        \begin{itemize}
-          \item In sed est finibus, vulputate
-            nunc gravida, pulvinar lorem. In maximus nunc dolor, sed auctor eros
-            porttitor quis.
-          \item Fusce ornare dignissim nisi. Nam sit amet risus vel lacus
-            tempor tincidunt eu a arcu.
-          \item Donec rhoncus vestibulum erat, quis aliquam leo
-            gravida egestas.
-        \end{itemize}
-      \item \textbf{Sed luctus, elit sit amet} dictum maximus, diam dolor
-        faucibus purus, sed lobortis justo erat id turpis.
-      \item \textbf{Pellentesque facilisis dolor in leo} bibendum congue.
-        Maecenas congue finibus justo, vitae eleifend urna facilisis at.
-    \end{itemize}
 
-  \end{block}
+  %% Two plot layout without resnet18/cifar10
+\begin{figure}
+    \begin{minipage}{.49\colwidth}
+        \centering
+        \includegraphics[width=0.49\colwidth]{srigl_example_figs/resnet50.pdf}
+        \caption{ResNet-50/ImageNet}\label{fig:resnet50_acc_vs_sparsity}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{.49\colwidth}
+        \centering
+        \includegraphics[width=0.49\colwidth]{srigl_example_figs/vit.pdf}
+        \caption{\gls{vit}/ImageNet}\label{fig:vit}
+    \end{minipage}
+\end{figure}
 
+\end{block}
+
+\begin{block}{FLOPs \& Acceleration}
+
+\begin{figure}
+    \begin{minipage}[t]{.49\colwidth}
+        \centering
+        \includegraphics[width=\linewidth]{srigl_example_figs/acc-vs-flops.pdf}
+        \caption{\textbf{Training \gls{flops}} for \gls{srigl} on ResNet-50/ImageNet at a variety of sparsities compared with dense generalization. \gls{flops} are normalized by dense training \gls{flops}.}\label{fig:combined-flops}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{.49\colwidth}
+        \centering
+        \includegraphics[width=\linewidth]{srigl_example_figs/CPU_benchmark.pdf}
+        \caption{\textbf{PyTorch timings.} Benchmarking a naive (non-optimized) PyTorch implementation of our condensed  representation on CPU.}\label{fig:CPUbenchm}
+    \end{minipage}
+\end{figure}
+\end{block}
 \end{column}
 
 \separatorcolumn
 
 \begin{column}{\colwidth}
 
-  \begin{exampleblock}{A highlighted block containing some math}
+  \begin{block}{Conclusion}
+    \begin{itemize}
+        \item At high sparsities, \gls{rigl} ablates large numbers of neurons. Effectively, \emph{\gls{rigl} reduces the width of the model at high sparsities}.
+        \item Under a strict constant fan-in constraint, neurons can never be ablated. Leading to very sparely connected neurons at high sparsities.
+        \item We implement a \textbf{neuron ablation method}, allowing \gls{srigl} to maintain both a constant fan-in constraint \emph{and} to reduce layer width at high sparsities.
+    \end{itemize}
 
-    A different kind of highlighted block.
+\begin{figure}
+    \centering
+    \includegraphics[width=\colwidth]{srigl_example_figs/ablationvsnoablation_wide.pdf}
+     \caption{\textbf{Neuron ablation.} At sparsity levels over 90\%, \gls{rigl} learns to completely mask (ablate) a large number of neurons within each layer, effectively reducing layer width. Imposing a constant fan-in constraint requires all neurons to have the same number of (non-pruned) incoming weights and therefore inhibits ablation, which results in worse generalization performance than \gls{rigl}. Allowing \gls{srigl} to ablate neurons  restores \gls{rigl}-level performance.}\label{fig:ablationvsnoablation}
+\end{figure}
 
-    $$
-    \int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}
-    $$
+\begin{figure}
+    \begin{minipage}[t]{.48\colwidth}
+        \includegraphics[width=0.49\colwidth]{srigl_example_figs/imagenet_perc_active.pdf}
+        \caption{Neuron Ablation}\label{fig:imagenet_perc_active}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{.48\colwidth}
+        \includegraphics[width=0.48\colwidth]{srigl_example_figs/vit_rigl_fan_in.pdf}
+        \caption{\textbf{Sparse Fan-In vs. \gls{vit} layer index at the end of training with \gls{rigl} at 90\% sparsity}. Only the first 10 layers are shown for clarity. We find that \gls{rigl} learns a sparse connectivity with large variance in fan-in between neurons within the same layer with some neurons receiving up to $\times 10$ the number of active connections than the mean for the same layer.}\label{fig:vit-rigl-fan-in}
+    \end{minipage}
+\end{figure}
 
-    Interdum et malesuada fames $\{1, 4, 9, \ldots\}$ ac ante ipsum primis in
-    faucibus. Cras eleifend dolor eu nulla suscipit suscipit. Sed lobortis non
-    felis id vulputate.
 
-    \heading{A heading inside a block}
+  \end{block}
 
-    Praesent consectetur mi $x^2 + y^2$ metus, nec vestibulum justo viverra
-    nec. Proin eget nulla pretium, egestas magna aliquam, mollis neque. Vivamus
-    dictum $\mathbf{u}^\intercal\mathbf{v}$ sagittis odio, vel porta erat
-    congue sed. Maecenas ut dolor quis arcu auctor porttitor.
-
-    \heading{Another heading inside a block}
-
-    Sed augue erat, scelerisque a purus ultricies, placerat porttitor neque.
-    Donec $P(y \mid x)$ fermentum consectetur $\nabla_x P(y \mid x)$ sapien
-    sagittis egestas. Duis eget leo euismod nunc viverra imperdiet nec id
-    justo.
-
-  \end{exampleblock}
-
-  \begin{block}{Nullam vel erat at velit convallis laoreet}
-
-    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
-    inceptos himenaeos. Phasellus libero enim, gravida sed erat sit amet,
-    scelerisque congue diam. Fusce dapibus dui ut augue pulvinar iaculis.
-
-    \begin{table}
-      \centering
-      \begin{tabular}{l r r c}
-        \toprule
-        \textbf{First column} & \textbf{Second column} & \textbf{Third column} & \textbf{Fourth} \\
-        \midrule
-        Foo & 13.37 & 384,394 & $\alpha$ \\
-        Bar & 2.17 & 1,392 & $\beta$ \\
-        Baz & 3.14 & 83,742 & $\delta$ \\
-        Qux & 7.59 & 974 & $\gamma$ \\
-        \bottomrule
-      \end{tabular}
-      \caption{A table caption.}
-    \end{table}
-
-    Donec quis posuere ligula. Nunc feugiat elit a mi malesuada consequat. Sed
-    imperdiet augue ac nibh aliquet tristique. Aenean eu tortor vulputate,
-    eleifend lorem in, dictum urna. Proin auctor ante in augue tincidunt
-    tempor. Proin pellentesque vulputate odio, ac gravida nulla posuere
-    efficitur. Aenean at velit vel dolor blandit molestie. Mauris laoreet
-    commodo quam, non luctus nibh ullamcorper in. Class aptent taciti sociosqu
-    ad litora torquent per conubia nostra, per inceptos himenaeos.
-
-    Nulla varius finibus volutpat. Mauris molestie lorem tincidunt, iaculis
-    libero at, gravida ante. Phasellus at felis eu neque suscipit suscipit.
-    Integer ullamcorper, dui nec pretium ornare, urna dolor consequat libero,
-    in feugiat elit lorem euismod lacus. Pellentesque sit amet dolor mollis,
-    auctor urna non, tempus sem.
-
+  \begin{block}{Acknowledgements}
+  We acknowledge the support of Schulich School of Engineering. We are grateful for computational resources made available to us by the Digital Research Alliance of Canada and the University of Calgary.
   \end{block}
 
   \begin{block}{References}
 
-    \nocite{*}
-    \footnotesize{\bibliographystyle{plain}\bibliography{poster}}
+    % \nocite{*}
+    \footnotesize{\bibliographystyle{icml2023}\bibliography{poster}}
 
   \end{block}
 
